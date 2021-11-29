@@ -1,6 +1,8 @@
 package pipeline
 
-import "log"
+import (
+	"log"
+)
 
 type API interface {
 	Register()
