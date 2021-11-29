@@ -1,0 +1,10 @@
+name: "Example Moped pipeline - hello"
+source: ./
+
+workflow:
+  steps:
+    - name: "Build"
+      run: make build
+
+    - name: "Report end"
+      run: echo "All done!"
