@@ -3,5 +3,6 @@ package main
 import "github.com/danstn/moped/cmd"
 
 func main() {
-	cmd.Execute()
+	mopedCLI := cmd.NewMopedCLI()
+	mopedCLI.Execute()
 }

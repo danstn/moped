@@ -1,7 +1,18 @@
 package config
 
-type AppConfig struct{}
+import "github.com/danstn/moped/internal/pipeline"
 
-func NewConfig() (*AppConfig, error) {
-	return nil, nil
+type AppConfig struct {
+	pipeline *pipeline.Pipeline
+}
+
+func NewAppConfig() (*AppConfig, error) {
+	config := &AppConfig{
+		pipeline: pipeline.NewPipeline(),
+	}
+	return config, nil
+}
+
+func (c *AppConfig) GetPipeline() pipeline.API {
+	return c.pipeline
 }

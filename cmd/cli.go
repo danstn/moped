@@ -4,34 +4,55 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/danstn/moped/cmd/register"
+	"github.com/danstn/moped/internal/config"
 	"github.com/spf13/cobra"
-
 	"github.com/spf13/viper"
 )
 
 var cfgFile string
 
-// rootCmd represents the base command when called without any subcommands
-var rootCmd = &cobra.Command{
-	Use:   "moped",
-	Short: "Moped - pocket CI.",
-	Long:  `Moped is your pocket CI. Because you can.`,
+type MopedCLI struct {
+	rootCmd *cobra.Command
+}
+
+//
+
+func NewMopedCLI() *MopedCLI {
+	mopedCLI := &MopedCLI{}
+
+	// init config
+	cobra.OnInitialize(initConfig)
+
+	appConfig, _ := config.NewAppConfig()
+
+	// root command
+	mopedCLI.rootCmd = initRootCmd(appConfig)
+	return mopedCLI
+}
+
+func initRootCmd(appConfig *config.AppConfig) *cobra.Command {
+	// root command
+	rootCmd := &cobra.Command{
+		Use:   "moped",
+		Short: "Moped - pocket CI.",
+		Long:  `Moped is your pocket CI. Because you can.`,
+	}
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.moped.yaml)")
+
+	// register command
+	registerCmd := register.NewCommand(appConfig)
+
+	// attach commands
+	rootCmd.AddCommand(registerCmd)
+
+	return rootCmd
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
-func Execute() {
-	cobra.CheckErr(rootCmd.Execute())
-}
-
-func init() {
-	cobra.OnInitialize(initConfig)
-
-	// Persistent flags for the whole application
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.moped.yaml)")
-
-	// Local flags for this command only
-	// rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+func (cli *MopedCLI) Execute() {
+	cobra.CheckErr(cli.rootCmd.Execute())
 }
 
 // initConfig reads in config file and ENV variables if set.
