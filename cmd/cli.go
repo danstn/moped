@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/danstn/moped/cmd/register"
@@ -16,15 +17,16 @@ type MopedCLI struct {
 	rootCmd *cobra.Command
 }
 
-//
-
 func NewMopedCLI() *MopedCLI {
 	mopedCLI := &MopedCLI{}
 
 	// init config
 	cobra.OnInitialize(initConfig)
 
-	appConfig, _ := config.NewAppConfig()
+	appConfig, err := config.NewAppConfig()
+	if err != nil {
+		log.Fatalf("failed loading app config: %v", err)
+	}
 
 	// root command
 	mopedCLI.rootCmd = initRootCmd(appConfig)

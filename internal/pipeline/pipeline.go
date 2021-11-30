@@ -8,7 +8,11 @@ type API interface {
 	Register()
 }
 
-type Pipeline struct{}
+type Pipeline struct {
+	ID         string
+	Name       string
+	Definition *Definition
+}
 
 func NewPipeline() *Pipeline {
 	return &Pipeline{}
