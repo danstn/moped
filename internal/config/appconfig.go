@@ -5,23 +5,25 @@ import (
 	"fmt"
 
 	"github.com/danstn/moped/internal/pipeline"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 type AppConfig struct {
 	db       *sql.DB
-	pipeline *pipeline.Pipeline
+	pipeline pipeline.API
 }
 
 func NewAppConfig() (*AppConfig, error) {
+	appConfig := &AppConfig{}
+
 	db, err := newSQLiteClient("./dev.db")
 	if err != nil {
 		return nil, fmt.Errorf("failed to open database: %w", err)
 	}
+	appConfig.db = db
 
-	return &AppConfig{
-		db:       db,
-		pipeline: pipeline.NewPipeline(),
-	}, nil
+	appConfig.pipeline = pipeline.NewService(appConfig)
+	return appConfig, nil
 }
 
 // open db connection

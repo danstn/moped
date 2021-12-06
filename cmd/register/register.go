@@ -44,11 +44,14 @@ func (c *registerCLI) RunCmd(cmd *cobra.Command, args []string) {
 		log.Fatalln("missing flag: ", flagFile)
 	}
 
-	log.Println("registering pipeline using file:", file)
-	// _, err = pipeline.FromYAMLFile(file)
-	// if err != nil {
-	// 	log.Fatalf("failed registering pipeline: %v", err)
-	// }
+	log.Println("reading pipeline from file:", file)
+	definition, err := pipeline.FromYAMLFile(file)
+	if err != nil {
+		log.Fatalf("failed reading pipeline fie: %v", err)
+	}
 
-	// c.pipeline.Register()
+	_, err = c.pipeline.CreatePipeline(cmd.Context(), definition)
+	if err != nil {
+		log.Fatalf("failed registering pipeline: %v", err)
+	}
 }

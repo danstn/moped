@@ -4,10 +4,6 @@ import (
 	"log"
 )
 
-type API interface {
-	Register()
-}
-
 type Pipeline struct {
 	ID         string
 	Name       string
