@@ -17,14 +17,15 @@ type Pipeline struct {
 	definition valueobjects.Definition
 }
 
-func NewPipeline(name string, definition valueobjects.Definition) (Pipeline, error) {
+func New(name string, definition valueobjects.Definition) (Pipeline, error) {
 	if name == "" {
 		return Pipeline{}, ErrEmptyPipelineName
 	}
 
 	pipeline := &entity.Pipeline{
-		ID:   uuid.New(),
-		Name: name,
+		ID:     uuid.New(),
+		Name:   name,
+		Status: "DISABLED",
 	}
 
 	return Pipeline{
@@ -39,4 +40,8 @@ func (p Pipeline) GetID() uuid.UUID {
 
 func (p Pipeline) GetDefinition() valueobjects.Definition {
 	return p.definition
+}
+
+func (p Pipeline) GetStatus() string {
+	return p.pipeline.Status
 }

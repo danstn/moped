@@ -53,7 +53,7 @@ func (s *service) CreatePipelineFromFile(ctx context.Context, file string) (uuid
 
 func (s *service) CreatePipeline(_ context.Context, definition valueobjects.Definition) (uuid.UUID, error) {
 	log.Printf("[svc] creating new pipeline from definition: %v", definition.Name)
-	newPipeline, err := pipeline.NewPipeline(definition.Name, definition)
+	newPipeline, err := pipeline.New(definition.Name, definition)
 	if err != nil {
 		return uuid.Nil, s.formatError("failed creating new pipeline", err)
 	}

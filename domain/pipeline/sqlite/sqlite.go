@@ -33,8 +33,8 @@ func (r *SQLiteRepository) Save(p pipeline.Pipeline) error {
 	if err != nil {
 		return fmt.Errorf("failed marshaling pipeline: %w", err)
 	}
-	stmt := "INSERT INTO pipeline(id, name, definition) VALUES (?, ?, ?)"
-	_, err = r.db.Exec(stmt, p.GetID(), definition.Name, json)
+	stmt := "INSERT INTO pipeline(id, name, status, definition) VALUES (?, ?, ?, ?)"
+	_, err = r.db.Exec(stmt, p.GetID(), definition.Name, p.GetStatus(), json)
 	if err != nil {
 		return fmt.Errorf("failed inserting into db: %w", err)
 	}
@@ -46,7 +46,8 @@ func migrate(db *sql.DB) error {
 		`CREATE TABLE IF NOT EXISTS "pipeline" (
 			id UUID PRIMARY KEY,
 			name TEXT NOT NULL,
-			definition TEXT NOT NULL
+			definition TEXT NOT NULL,
+			status TEXT NOT NULL
 	)`,
 	}
 	for i, stmt := range migrations {
