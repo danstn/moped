@@ -2,7 +2,7 @@ package pipeline
 
 import "github.com/google/uuid"
 
-type PipelineRepository interface {
+type Repository interface {
 	GetByID(uuid.UUID) (Pipeline, error)
-	Add(Pipeline) (uuid.UUID, error)
+	Save(Pipeline) error
 }

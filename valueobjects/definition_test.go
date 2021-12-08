@@ -1,4 +1,4 @@
-package pipeline
+package valueobjects
 
 import (
 	"testing"
@@ -24,7 +24,7 @@ func TestFromYAML(t *testing.T) {
 	tests := []struct {
 		name    string
 		args    args
-		want    *Definition
+		want    Definition
 		wantErr error
 	}{
 		{
@@ -32,7 +32,7 @@ func TestFromYAML(t *testing.T) {
 			args: args{
 				data: []byte(goodDefinition),
 			},
-			want: &Definition{
+			want: Definition{
 				Name: "test pipeline",
 				Steps: []Step{
 					{
@@ -50,7 +50,7 @@ func TestFromYAML(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := FromYAML(tt.args.data)
+			got, err := DefinitionFromYAML(tt.args.data)
 			assert.Equal(t, tt.want, got)
 			assert.Equal(t, tt.wantErr, err)
 		})

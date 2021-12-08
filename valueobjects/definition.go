@@ -17,19 +17,19 @@ type Step struct {
 	Run  string `yaml:"run"`
 }
 
-func FromYAML(data []byte) (*Definition, error) {
-	def := &Definition{}
-	err := yaml.Unmarshal(data, def)
+func DefinitionFromYAML(data []byte) (Definition, error) {
+	def := Definition{}
+	err := yaml.Unmarshal(data, &def)
 	if err != nil {
-		return nil, fmt.Errorf("failed reading yaml: %w", err)
+		return def, fmt.Errorf("failed reading yaml: %w", err)
 	}
 	return def, nil
 }
 
-func FromYAMLFile(path string) (*Definition, error) {
+func DefinitionFromYAMLFile(path string) (Definition, error) {
 	data, err := os.ReadFile(path)
 	if err != nil {
-		return nil, fmt.Errorf("failed reading from file: %v", err)
+		return Definition{}, fmt.Errorf("failed reading from file: %v", err)
 	}
-	return FromYAML(data)
+	return DefinitionFromYAML(data)
 }

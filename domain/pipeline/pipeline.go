@@ -3,8 +3,8 @@ package pipeline
 import (
 	"errors"
 
-	"github.com/danstn/moped/entity"
-	"github.com/danstn/moped/valueobjects"
+	entity "github.com/danstn/moped/entity"
+	valueobjects "github.com/danstn/moped/valueobjects"
 	"github.com/google/uuid"
 )
 
@@ -31,4 +31,12 @@ func NewPipeline(name string, definition valueobjects.Definition) (Pipeline, err
 		pipeline:   pipeline,
 		definition: definition,
 	}, nil
+}
+
+func (p Pipeline) GetID() uuid.UUID {
+	return p.pipeline.ID
+}
+
+func (p Pipeline) GetDefinition() valueobjects.Definition {
+	return p.definition
 }

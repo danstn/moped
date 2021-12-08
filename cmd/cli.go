@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/danstn/moped/cmd/register"
-	"github.com/danstn/moped/internal/config"
+	"github.com/danstn/moped/config"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
