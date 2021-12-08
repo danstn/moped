@@ -41,6 +41,18 @@ func (r *SQLiteRepository) Save(p pipeline.Pipeline) error {
 	return nil
 }
 
+func (r *SQLiteRepository) UpdateStatusByID(id uuid.UUID, status string) error {
+	if status == "" {
+		return fmt.Errorf("status cannot be empty")
+	}
+	sql := "UPDATE pipeline SET status=? WHERE id=?"
+	_, err := r.db.Exec(sql, status, id)
+	if err != nil {
+		return fmt.Errorf("failed inserting into db: %w", err)
+	}
+	return nil
+}
+
 func migrate(db *sql.DB) error {
 	migrations := []string{
 		`CREATE TABLE IF NOT EXISTS "pipeline" (

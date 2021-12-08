@@ -57,10 +57,12 @@ func (s *service) CreatePipeline(_ context.Context, definition valueobjects.Defi
 	if err != nil {
 		return uuid.Nil, s.formatError("failed creating new pipeline", err)
 	}
+
 	err = s.pipelinesRepo.Save(newPipeline)
 	if err != nil {
 		return uuid.Nil, s.formatError("failed saving pipeline to store", err)
 	}
+
 	return newPipeline.GetID(), nil
 }
 
